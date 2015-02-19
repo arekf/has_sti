@@ -1,0 +1,2 @@
+module HasSti
+end

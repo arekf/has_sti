@@ -1,2 +1,2 @@
-class Zebra < ActiveRecord::Base
+class Zebra < Animal
 end

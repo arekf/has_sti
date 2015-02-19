@@ -1,2 +1,2 @@
-class Elephant < ActiveRecord::Base
+class Elephant < Animal
 end

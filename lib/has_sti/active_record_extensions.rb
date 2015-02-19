@@ -6,7 +6,9 @@ module HasSti
       raise HasSti::Exceptions::NoDescendantsError if klasses.count.zero?
 
       superclass = constant(klasses.first).superclass
-      raise HasSti::Exceptions::NoSuperclassError unless superclass
+      active_record_superclasses = [ActiveRecord::Base, Object, BasicObject]
+
+      raise HasSti::Exceptions::NoSuperclassError if superclass.nil? || active_record_superclasses.include?(superclass)
 
       klasses.each do |klass|
         define_method helper_method_name(klass) do

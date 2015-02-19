@@ -7,7 +7,7 @@ module HasSti
     end
     class NoSuperclassError < StandardError
       def message
-        'Your STI descendant has no superclass'
+        'Your STI model has no parent model as a superclass'
       end
     end
   end

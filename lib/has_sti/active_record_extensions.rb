@@ -2,6 +2,20 @@ module HasSti
   module ActiveRecordExtensions
     extend ActiveSupport::Concern
 
+    # Creates STI helper methods and scopes. Use it in your parent model, for example:
+    #    class Cat < Animal; end
+    #    class Dog < Animal; end
+    #    class Parrot < Animal; end
+    #
+    #    class Animal < ActiveRecord::Base
+    #        has_sti :cat, :dog, :parrot
+    #    end
+    # Helper methods will be created:
+    #    cat = Cat.first
+    #    cat.cat? => true
+    #    cat.parrot? => false
+    # Also, you can use scopes on parent model, like:
+    #    Animal.cat => array of Cats
     def has_sti(*klasses)
       raise HasSti::Exceptions::NoDescendantsError if klasses.count.zero?
 

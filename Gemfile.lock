@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     has_sti (0.0.1)
-      rails (~> 4.2.0)
+      activerecord (~> 4.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -126,5 +126,6 @@ PLATFORMS
 
 DEPENDENCIES
   has_sti!
+  rails (~> 4.2.0)
   rspec-rails
   sqlite3

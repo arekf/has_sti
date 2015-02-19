@@ -1,3 +1,56 @@
-= HasSti
+= has_sti
 
-This project rocks and uses MIT-LICENSE.
++has_sti+ is an ActiveRecord extension that provides helper methods and scopes for STI models.
+
+== Installation
+* Add +has_sti+ to your Gemfile:
+    gem 'has_sti'
+* Install with:
+    bundle install
+
+== Usage
+We will use Ruby on Rails for this scenario. Let's say +User+ model is a parent STI class and you want to create child classes: +Admin+ and +Reader+. You start with defining STI as follows:
+
+     class User < ActiveRecord::Base
+     end
+
+     class Admin < User
+     end
+
+     class Reader < User
+     end
+
+Next step is creating migration for the database:
+    rails generate migration AddTypeToUser type:string
+
+Then, we need to migrate database:
+    bundle exec rake db:migrate
+
+Basic setup of STI is done. Here's where +has_sti+ takes action.
+
+Modify your +User+ model to include +has_sti+:
+
+     class User < ActiveRecord::Base
+         has_sti :admin, :reader
+     end
+
+And that's it. Now you have following methods and scopes available:
+    some_admin = Admin.create
+
+    some_admin.admin? => true
+    some_admin.reader? => false
+
+    User.admin => [some_admin]
+    User.reader => []
+
+No configuration is required. Custom STI column name is supported.
+
+== License
++has_sti+ is released under the MIT license:
+* http://www.opensource.org/licenses/MIT
+
+== Author
+Arkadiusz Fal
+* http://arekf.net
+
+Copyright © 2015

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    has_sti (0.2.0)
+    has_sti (0.2.1)
       activerecord (>= 4.0.0)
 
 GEM

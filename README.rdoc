@@ -1,4 +1,4 @@
-{<img src="https://travis-ci.org/arekf/has_sti.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/arekf/has_sti]
+{<img src="https://travis-ci.org/arekf/has_sti.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/arekf/has_sti] {<img src="https://codeclimate.com/github/arekf/has_sti/badges/gpa.svg" />}[https://codeclimate.com/github/arekf/has_sti] {<img src="https://codeclimate.com/github/arekf/has_sti/badges/coverage.svg" />}[https://codeclimate.com/github/arekf/has_sti] {<img src="https://badge.fury.io/rb/has_sti.svg" alt="Gem Version" />}[http://badge.fury.io/rb/has_sti]
 
 = has_sti
 

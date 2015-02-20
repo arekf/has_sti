@@ -6,13 +6,16 @@
 
 == Installation
 * Add +has_sti+ to your Gemfile:
+    ```ruby
     gem 'has_sti'
+    ```
 * Install with:
     bundle install
 
 == Usage
 We will use Ruby on Rails for this scenario. Let's say +User+ model is a parent STI class and you want to create child classes: +Admin+ and +Reader+. You start with defining STI as follows:
 
+    ```ruby
      class User < ActiveRecord::Base
      end
 
@@ -21,6 +24,7 @@ We will use Ruby on Rails for this scenario. Let's say +User+ model is a parent 
 
      class Reader < User
      end
+     ```
 
 Next step is creating migration for the database:
     rails generate migration AddTypeToUser type:string
@@ -32,11 +36,14 @@ Basic setup of STI is done. Here's where +has_sti+ takes action.
 
 Modify your +User+ model to include +has_sti+:
 
+    ```ruby
      class User < ActiveRecord::Base
          has_sti :admin, :reader
      end
+     ```
 
 And that's it. Now you have following methods and scopes available:
+    ```ruby
     some_admin = Admin.create
 
     some_admin.admin? => true
@@ -44,22 +51,29 @@ And that's it. Now you have following methods and scopes available:
 
     User.admin => [some_admin]
     User.reader => []
+    ```
 
 You can also disable helper methods:
+    ```ruby
      class User < ActiveRecord::Base
          has_sti :admin, :reader, helper_methods: false
      end
+     ```
 
 or scopes:
+    ```ruby
      class User < ActiveRecord::Base
          has_sti :admin, :reader, scopes: false
      end
+     ```
 
 or even set it per child class:
+    ```ruby
      class User < ActiveRecord::Base
          has_sti :admin, scopes: false
          has_sti :reader, helper_methods: false
      end
+     ```
 
 No configuration is required. Custom STI column name is supported.
 

@@ -45,6 +45,22 @@ And that's it. Now you have following methods and scopes available:
     User.admin => [some_admin]
     User.reader => []
 
+You can also disable helper methods:
+     class User < ActiveRecord::Base
+         has_sti :admin, :reader, helper_methods: false
+     end
+
+or scopes:
+     class User < ActiveRecord::Base
+         has_sti :admin, :reader, scopes: false
+     end
+
+or even set it per child class:
+     class User < ActiveRecord::Base
+         has_sti :admin, scopes: false
+         has_sti :reader, helper_methods: false
+     end
+
 No configuration is required. Custom STI column name is supported.
 
 == License

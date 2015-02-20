@@ -1,0 +1,2 @@
+class SlavicLanguage < Language
+end

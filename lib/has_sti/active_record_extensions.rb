@@ -10,32 +10,61 @@ module HasSti
     #    class Animal < ActiveRecord::Base
     #        has_sti :cat, :dog, :parrot
     #    end
+    #
     # Helper methods will be created:
+    #
     #    cat = Cat.first
     #    cat.cat? => true
     #    cat.parrot? => false
+    #
     # Also, you can use scopes on parent model, like:
     #    Animal.cat => array of Cats
-    def has_sti(*klasses)
+    #
+    # If you do not need helper methods, or scopes, just disable them:
+    #    class Animal < ActiveRecord::Base
+    #        has_sti :cat, :dog, :parrot, helper_methods: false
+    #    end
+    #
+    # or:
+    #    class Animal < ActiveRecord::Base
+    #        has_sti :cat, :dog, :parrot, scopes: false
+    #    end
+    def has_sti(*klasses, helper_methods: true, scopes: true)
+      return if !helper_methods && !scopes
+
       raise HasSti::Exceptions::NoDescendantsError if klasses.count.zero?
 
-      superclass = constant(klasses.first).superclass
-      active_record_superclasses = [ActiveRecord::Base, Object, BasicObject]
-
-      raise HasSti::Exceptions::NoSuperclassError if superclass.nil? || active_record_superclasses.include?(superclass)
-
       klasses.each do |klass|
-        define_method helper_method_name(klass) do
-          self.class.name == klass.to_s.classify
-        end
-
-        superclass.define_singleton_method scope_method_name(klass) do
-          where(superclass.inheritance_column => class_name(klass))
-        end
+        define_helper_method(klass) if helper_methods
+        define_scope(klass) if scopes
       end
     end
 
     private
+
+    def define_helper_method(klass)
+      define_method helper_method_name(klass) do
+          self.class.name == klass.to_s.classify
+        end
+    end
+
+    def define_scope(klass)
+      superclass = superclass_for(klass)
+      superclass.define_singleton_method scope_method_name(klass) do
+        where(superclass.inheritance_column => class_name(klass))
+      end
+    end
+
+    def superclass_for(klass)
+      superclass = constant(klass).superclass
+      raise HasSti::Exceptions::NoSuperclassError if superclass.nil? || model_superclasses.include?(superclass)
+
+      superclass
+    end
+
+    def model_superclasses
+      [ActiveRecord::Base, Object, BasicObject]
+    end
 
     def class_name(klass)
       klass.to_s.classify

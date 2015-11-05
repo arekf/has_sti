@@ -49,29 +49,13 @@ module HasSti
     end
 
     def define_scope(klass)
-      superclass = superclass_for(klass)
-      superclass.define_singleton_method scope_method_name(klass) do
-        where(superclass.inheritance_column => class_name(klass))
+      define_singleton_method scope_method_name(klass) do
+        where(self.inheritance_column => class_name(klass))
       end
-    end
-
-    def superclass_for(klass)
-      superclass = constant(klass).superclass
-      raise HasSti::Exceptions::NoSuperclassError if superclass.nil? || model_superclasses.include?(superclass)
-
-      superclass
-    end
-
-    def model_superclasses
-      [ActiveRecord::Base, Object, BasicObject]
     end
 
     def class_name(klass)
       klass.to_s.classify
-    end
-
-    def constant(klass)
-      class_name(klass).constantize
     end
 
     def helper_method_name(klass)

@@ -9,14 +9,6 @@ RSpec.describe :has_sti do
     }.to raise_error(HasSti::Exceptions::NoDescendantsError)
   end
 
-  it 'should raise when model has no parent model as a superclass' do
-    expect {
-      Class.new(ActiveRecord::Base) do
-        has_sti :string
-      end
-    }.to raise_error(HasSti::Exceptions::NoSuperclassError)
-  end
-
   it 'should not raise when options disable all the behavior' do
     expect {
       Class.new(ActiveRecord::Base) do
